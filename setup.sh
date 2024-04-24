@@ -1,3 +1,4 @@
+#!/usr/bin/bash
 pip install -r requirements.txt
 touch ".env"
 if [ -f "credential_setup_for_dotenv.py" ]; then

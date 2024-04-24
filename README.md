@@ -7,13 +7,17 @@ This is a simple students management system developed in Python with MySQL 8.0. 
    git clone https://github.com/milky-way2/manage_students.git
    ```
 
-3. Navigate to the cloned directory:
+2. Navigate to the cloned directory:
    ```bash
    cd manage_students
    ```
 
-5. Run the setup script:
+3. Run the setup script:
    ```bash
    bash setup.sh
+   ```
+4. Run the student.py script:
+   ```bash
+   python3 student.py
    ```
 
