@@ -112,7 +112,7 @@ def add_column(cursor: mysql.connector.cursor_cext.CMySQLCursor, connection: mys
     size: str = "0"
     nullable: str = input("Do you want to make this attribute NULL able or Not. For yes Enter y & for no enter n : ")
     if data_type.lower() == "varchar" or data_type.lower() == "char":
-        size = input("Enter Size of varchar data type : ")
+        size = input(f"Enter Size of {data_type} data type : ")
         query: str = f"alter table student add column {column} {data_type}({size})"
     else:
         query = f"alter table student add column {column} {data_type}"
@@ -156,7 +156,7 @@ def update_column(cursor: mysql.connector.cursor_cext.CMySQLCursor, connection: 
         data_type = data_type[0]
         new_value: str = input("Enter new value : ")
         roll_no: str = input("Enter student Roll No want to update : ")
-        if data_type.lower() == "varchar":
+        if data_type.lower() == "varchar" or data_type.lower() == "char":
             query: str = f"update student set {column} = '{new_value}' where RollNo = {roll_no};"
         else:
             query = f"update student set {column} = {new_value} where RollNo = {roll_no};"
