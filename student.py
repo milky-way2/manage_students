@@ -111,7 +111,7 @@ def add_column(cursor: mysql.connector.cursor_cext.CMySQLCursor, connection: mys
     data_type: str = input("Enter column data type : ")
     size: str = "0"
     nullable: str = input("Do you want to make this attribute NULL able or Not. For yes Enter y & for no enter n : ")
-    if data_type.lower() == "varchar":
+    if data_type.lower() == "varchar" or data_type.lower() == "char":
         size = input("Enter Size of varchar data type : ")
         query: str = f"alter table student add column {column} {data_type}({size})"
     else:
