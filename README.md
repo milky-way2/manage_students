@@ -11,12 +11,16 @@ This is a simple students management system developed in Python with MySQL 8.0. 
    ```bash
    cd manage_students
    ```
-
-3. Run the setup script:
+3. Give executable permission to setup.sh:
+   ```bash
+   chmod +x setup.sh
+   ```
+4. Run the setup script:
    ```bash
    bash setup.sh
    ```
-4. Run the student.py script:
+
+5. Run the student.py script:
    ```bash
    python3 student.py
    ```
