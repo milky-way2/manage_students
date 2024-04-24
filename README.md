@@ -1,7 +1,16 @@
 # manaage_students
-This is a simple students management system dveloped in python with MYSQL 8.0 
-clone this repo and just run bash setup.sh
-Follow bellow steps:
-git clone https://github.com/milky-way2/manage_students.git
-cd manage_students
-bash setup.sh
+
+This is a simple students management system developed in Python with MySQL 8.0. To get started, follow these steps:
+
+1. Clone this repository:\
+   ```bash
+  git clone https://github.com/milky-way2/manage_students.git
+
+3. Navigate to the cloned directory:\
+   ```bash
+  cd manage_students
+
+5. Run the setup script:\
+   ```bash
+  bash setup.sh
+
