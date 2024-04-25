@@ -1,10 +1,10 @@
 #!/usr/bin/bash
 pip install -r requirements.txt
-if [ -f ".env" ]; then
-	mv '.env'
-	touch ".env"
+if [ -f .env ]; then
+	rm .env
+	touch .env
 else
-	touch ".env"
+	touch .env
 fi
 if [ -f "credential_setup_for_dotenv.py" ]; then
 	python3 credential_setup_for_dotenv.py
