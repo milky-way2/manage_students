@@ -42,6 +42,8 @@ else
     exit 1
 fi
 if [ -f "setup.sh" ]; then
+	echo "Renaming -> reset.sh"
 	mv setup.sh reset.sh
 fi
+echo "Now run python3 main.py to manage student"
 exit 0
