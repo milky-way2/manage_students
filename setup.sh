@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 pip install -r requirements.txt
 if [ -f ".env" ]; then
-	mv ".env"
+	mv '.env'
 	touch ".env"
 else
 	touch ".env"
