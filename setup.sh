@@ -12,7 +12,7 @@ env_file=".env"
 # Check if the .env file exists
 if [ -f "$env_file" ]; then
     # Read the contents of the .env file
-    source "$env_file" 
+    source "$env_file"
     # You can now use the variables defined in the .env  file
     #mysql -u $MYSQL_USER -p$MYSQL_PASSWORD < $db
     sudo mysql <<EOF
@@ -31,8 +31,8 @@ if [ -f "$env_file" ]; then
     	RollNo int primary key,
 	    Name varchar(50) not NULL);
 
-	insert into Attributes_Details (Attribute_Name, Data_Type) values 
-    	('RollNo', 'int'), 
+	insert into Attributes_Details (Attribute_Name, Data_Type) values
+    	('RollNo', 'int'),
 	    ('Name', 'varchar');
 
 	grant all privileges on students.* to "$MYSQL_USER"@'localhost';
@@ -41,14 +41,7 @@ else
     echo "Error: .env file not found."
     exit 1
 fi
-
-if [ -f "student.py" ]; then
-	python3 student.py
-else
-	echo "Error: student.py file is missing"
-	exit 1
+if [ -f "setup.sh" ]; then
+	mv setup.sh reset.sh
 fi
 exit 0
-
-
-
