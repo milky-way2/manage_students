@@ -12,7 +12,15 @@ else
 	echo "Error: credential_setup_for_dotenv.py file is missing....."
 	exit 1
 fi
-db="student_db.sql"
+if which mysql > /dev/null 2>&1; then
+	echo "Mysql Found..\n $(mysql --version)"
+#	continue
+else
+	echo "Mysql not found............."
+	echo "Installing mysql server"
+	sudo apt install mysql-server
+fi
+#db="student_db.sql"
 env_file=".env"
 # Check if the .env file exists
 if [ -f "$env_file" ]; then
@@ -50,5 +58,5 @@ if [ -f "setup.sh" ]; then
 	echo "Renaming -> reset.sh"
 	mv setup.sh reset.sh
 fi
-echo "Now run python3 main.py to manage student"
+echo "Now run python3 main.py to manage students details."
 exit 0
