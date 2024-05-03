@@ -37,6 +37,7 @@ EOF
     	if [  "$plugin" == "mysql_native_password" ]; then
         	echo "User $MYSQL_USER present and can be connect with mysql.connector."
     	else
+			echo "$MYSQL_USER using $plugin authentication plugin which will be changed ---> mysql_native_password";
         	sudo mysql <<EOF
         	alter  user "$MYSQL_USER"@"$MYSQL_HOST" identified with mysql_native_password by "$MYSQL_PASSWORD";
 EOF
