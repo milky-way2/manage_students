@@ -38,7 +38,7 @@ EOF
         	echo "User $MYSQL_USER present and can be connect with mysql.connector."
     	else
         	sudo mysql <<EOF
-        	update user "$MYSQL_USER"@"$MYSQL_HOST" identified with mysql_native_password by "$MYSQL_PASSWORD";
+        	alter  user "$MYSQL_USER"@"$MYSQL_HOST" identified with mysql_native_password by "$MYSQL_PASSWORD";
 EOF
     	fi
 	else
