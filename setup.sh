@@ -26,6 +26,28 @@ env_file=".env"
 if [ -f "$env_file" ]; then
     # Read the contents of the .env file
     source "$env_file"
+	output=$(sudo mysql <<EOF
+	select Host, user, plugin from mysql.user where user='$MYSQL_USER';
+EOF
+)
+	if [ -n "$output" ]; then
+    	host=$(echo "$output" |awk '{print $1}' | grep -v 'Host')
+    	user=$(echo "$output" |awk '{print $2}' | grep -v 'user')
+    	plugin=$(echo "$output" |awk '{print $3}' | grep -v 'plugin')
+    	if [  "$plugin" == "mysql_native_password" ]; then
+        	echo "User $MYSQL_USER present and can be connect with mysql.connector."
+    	else
+        	sudo mysql <<EOF
+        	update user "$MYSQL_USER"@"$MYSQL_HOST" identified with mysql_native_password by "$MYSQL_PASSWORD";
+EOF
+    	fi
+	else
+    	echo "User Not Exists......"
+    	echo "creating User $MYSQL_USER with mysql_native_password plugin for connect througn mysql.connector"
+    	sudo mysql <<EOF
+    	create user "$MYSQL_USER"@"$MYSQL_HOST" identified with mysql_native_password by "$MYSQL_PASSWORD";
+EOF
+	fi
     # You can now use the variables defined in the .env  file
     #mysql -u $MYSQL_USER -p$MYSQL_PASSWORD < $db
     sudo mysql <<EOF
