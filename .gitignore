@@ -1,3 +1,4 @@
 .env
 student_db.sql
 test.sh
+credential_setup_for_dotenv.py
