@@ -45,11 +45,11 @@ fi
 #	exit 1
 #fi
 read -p "Enter Mysql Host : " MYSQL_HOST
-read -p "Enter Mysql Host : " MYSQL_USER
+read -p "Enter Mysql UserName : " MYSQL_USER
 while true; do
 	read -s -p "Enter Mysql Password : " MYSQL_PASSWORD1
 	echo
-	read -s -p  "Reenter Mysql Password : " MYSQL_PASSWORD2
+	read -s -p  "Confirm  Mysql Password : " MYSQL_PASSWORD2
     if check_password "$MYSQL_PASSWORD1" "$MYSQL_PASSWORD2"; then
         MYSQL_PASSWORD="$MYSQL_PASSWORD1"
         break
