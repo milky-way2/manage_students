@@ -1,35 +1,92 @@
 #!/usr/bin/bash
-pip install -r requirements.txt
+
+#Function to check a command is present or not
+command_exists()
+{
+	command -V "$1" > /dev/null 2>&1
+}
+
+#instaalling python packages
+if [ -f "requirements.txt" ]; then
+	echo "Installing python packages from requirements.txt file......"
+	pip install -r requirements.txt
+else
+	echo "requirements.txt file is missing"
+fi
+#Creating .env file for python-dotenv package
 if [ -f .env ]; then
 	rm .env
 	touch .env
 else
 	touch .env
 fi
+#now adding credentials to .env file created previously
 if [ -f "credential_setup_for_dotenv.py" ]; then
 	python3 credential_setup_for_dotenv.py
 else
 	echo "Error: credential_setup_for_dotenv.py file is missing....."
 	exit 1
 fi
-if which mysql > /dev/null 2>&1; then
+#checking mysql is present or not if not then try to install it
+#if which mysql > /dev/null 2>&1; then
+if command_exists mysql; then
 	echo "Mysql Found..\n $(mysql --version)"
-#	continue
 else
 	echo "Mysql not found............."
 	echo "Installing mysql server"
-	sudo apt install mysql-server
+	#Ubuntu/Debian:
+	if command_exists apt; then
+		sudo apt update
+		sudo apt install mysql-server
+	#Ubuntu/Debian:
+	elif command_exists apt-get; then
+		sudo apt-get update
+		sudo apt-get install mysql-server
+	#macOS (using Homebrew):
+	elif command_exists brew; then
+		brew update
+		brew install mysql-server
+	#Arch Linux:
+	elif command_exists pacman; then
+		sudo pacman -Syu
+		sudo pacman -S mysql
+	#CentOS/RHEL:
+	elif command_exists yum; then
+		sudo yum update
+		sudo yum install mysql-server
+	#Fedora:
+	elif command_exists dnf; then
+		sudo dnf install mysql-server
+	#FreeBSD:
+	elif command_exists pkg; then
+		pkg update
+		pkg install mysql80-server
+	#OpenSUSE:
+	elif command_exists zypper; then
+		sudo zypper refresh
+		sudo zypper install mysql-community-server
+	else
+		echo "Mysql not found unable to install automatically. Install mysql manually......."
+		exit 1
+	fi
 fi
-#db="student_db.sql"
-env_file=".env"
-# Check if the .env file exists
-if [ -f "$env_file" ]; then
+#Again verifying mysql is present or not .
+if command_exists mysql; then
+	echo "Mysql Found....."
+else
+	echo "Mysql not found install it first."
+	exit 1
+fi
+
+#Again Check if the .env file exists
+if [ -f .env ]; then
     # Read the contents of the .env file
-    source "$env_file"
+    source .env
 	output=$(sudo mysql <<EOF
 	select Host, user, plugin from mysql.user where user='$MYSQL_USER';
 EOF
 )
+	#checking authenticaion plugin is mysql_native_password or not for existing user if not then modifing it
 	if [ -n "$output" ]; then
     	host=$(echo "$output" |awk '{print $1}' | grep -v 'Host')
     	user=$(echo "$output" |awk '{print $2}' | grep -v 'user')
@@ -43,14 +100,14 @@ EOF
 EOF
     	fi
 	else
+		#creating user if not exists
     	echo "User Not Exists......"
-    	echo "creating User $MYSQL_USER with mysql_native_password plugin for connect througn mysql.connector"
+    	echo "creating User $MYSQL_USER with mysql_native_password plugin for connect through mysql.connector"
     	sudo mysql <<EOF
     	create user "$MYSQL_USER"@"$MYSQL_HOST" identified with mysql_native_password by "$MYSQL_PASSWORD";
 EOF
 	fi
-    # You can now use the variables defined in the .env  file
-    #mysql -u $MYSQL_USER -p$MYSQL_PASSWORD < $db
+    #Creating DB and tables for students
     sudo mysql <<EOF
     SELECT 'Removing students database if already present.' as 'INFO';
 	drop database if exists students;
@@ -77,9 +134,16 @@ else
     echo "Error: .env file not found."
     exit 1
 fi
+#Renaming setup.sh --> reset.sh
 if [ -f "setup.sh" ]; then
 	echo "Renaming -> reset.sh"
 	mv setup.sh reset.sh
+else
+	if [ -f reset.sh ]; then
+		echo "setup.sh already changed to reset.sh"
+	else
+		echo "setup.sh missing"
+	fi
 fi
 echo "Now run python3 main.py to manage students details."
 exit 0
