@@ -78,9 +78,7 @@ else
 	fi
 fi
 #Again verifying mysql is present or not .
-if command_exists mysql; then
-	echo "Mysql Found....."
-else
+if ! command_exists mysql; then
 	echo "Mysql not found install it first."
 	exit 1
 fi
