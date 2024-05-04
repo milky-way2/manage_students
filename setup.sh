@@ -63,7 +63,7 @@ echo  "MYSQL_PASSWORD=$MYSQL_PASSWORD" >> .env
 #checking mysql is present or not if not then try to install it
 #if which mysql > /dev/null 2>&1; then
 if command_exists mysql; then
-	echo -e "Mysql Found..\n $(mysql --version)"
+	echo -e "\nMysql Found..\n $(mysql --version)"
 else
 	echo "Mysql not found............."
 	echo "Installing mysql server"
