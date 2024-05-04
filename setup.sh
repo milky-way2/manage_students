@@ -16,7 +16,7 @@ if [ -f "requirements.txt" ]; then
 	else
 		echo "Pip not found.......Install pip or start your virtual environment if needed..........."
 		exit 1
-	f1
+	fi
 else
 	echo "requirements.txt file is missing"
 fi
