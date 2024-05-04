@@ -6,6 +6,16 @@ command_exists()
 	command -V "$1" > /dev/null 2>&1
 }
 
+
+check_password()
+{
+	if [ "$1" == "$2" ]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
 #instaalling python packages
 if [ -f "requirements.txt" ]; then
 	echo "Installing python packages from requirements.txt file......"
@@ -28,16 +38,32 @@ else
 	touch .env
 fi
 #now adding credentials to .env file created previously
-if [ -f "credential_setup_for_dotenv.py" ]; then
-	python3 credential_setup_for_dotenv.py
-else
-	echo "Error: credential_setup_for_dotenv.py file is missing....."
-	exit 1
-fi
+#if [ -f "credential_setup_for_dotenv.py" ]; then
+#	python3 credential_setup_for_dotenv.py
+#else
+#	echo "Error: credential_setup_for_dotenv.py file is missing....."
+#	exit 1
+#fi
+read -p "Enter Mysql Host : " MYSQL_HOST
+read -p "Enter Mysql Host : " MYSQL_USER
+while true; do
+	read -s -p "Enter Mysql Password : " MYSQL_PASSWORD1
+	echo
+	read -s -p  "Reenter Mysql Password : " MYSQL_PASSWORD2
+    if check_password "$MYSQL_PASSWORD1" "$MYSQL_PASSWORD2"; then
+        MYSQL_PASSWORD="$MYSQL_PASSWORD1"
+        break
+    else
+        echo -e "\nPassword not matched try again"
+    fi
+done
+echo  "MYSQL_HOST=$MYSQL_HOST" >> .env
+echo  "MYSQL_USER=$MYSQL_USER" >> .env
+echo  "MYSQL_PASSWORD=$MYSQL_PASSWORD" >> .env
 #checking mysql is present or not if not then try to install it
 #if which mysql > /dev/null 2>&1; then
 if command_exists mysql; then
-	echo "Mysql Found..\n $(mysql --version)"
+	echo -e "Mysql Found..\n $(mysql --version)"
 else
 	echo "Mysql not found............."
 	echo "Installing mysql server"
