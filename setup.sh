@@ -45,7 +45,7 @@ else
 	#macOS (using Homebrew):
 	elif command_exists brew; then
 		brew update
-		brew install mysql-server
+		brew install mysql
 	#Arch Linux:
 	elif command_exists pacman; then
 		sudo pacman -Syu
