@@ -9,7 +9,14 @@ command_exists()
 #instaalling python packages
 if [ -f "requirements.txt" ]; then
 	echo "Installing python packages from requirements.txt file......"
-	pip install -r requirements.txt
+	if command_exists pip; then
+		pip install -r requirements.txt
+	elfi command_exists pip3; then
+		pip3 install -r requirements.txt
+	else
+		echo "Pip not found.......Install pip or start your virtual environment if needed..........."
+		exit 1
+	f1
 else
 	echo "requirements.txt file is missing"
 fi
