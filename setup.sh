@@ -141,7 +141,7 @@ else
 fi
 #Renaming setup.sh --> reset.sh
 if [ -f "setup.sh" ]; then
-	echo "Renaming -> reset.sh"
+	echo "Renaming setup.sh --> reset.sh"
 	mv setup.sh reset.sh
 else
 	if [ -f reset.sh ]; then
