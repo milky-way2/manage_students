@@ -50,6 +50,38 @@ echo  "MYSQL_PASSWORD=$MYSQL_PASSWORD" >> .env
 #checking mysql and python3-venv are present or not if not then try to install them
 if command_exists mysql; then
 	echo -e "\nMysql Found..\n $(mysql --version)"
+	echo "Try to install python3-venv and pip"
+	#Ubuntu/Debian:
+	if command_exists apt; then
+		sudo apt install python3-venv
+		sudo apt install python3-pip
+	#Ubuntu/Debian:
+	elif command_exists apt-get; then
+		sudo apt-get install python3-venv
+		sudo apt-get install python3-pip
+	#Arch Linux:
+	elif command_exists pacman; then
+		sudo pacman -S python3-venv
+		sudo pacman -S python-pip
+	#CentOS/RHEL:
+	elif command_exists yum; then
+		sudo yum install python3-venv
+		sudo yum install python3-pip
+	#Fedora:
+	elif command_exists dnf; then
+		sudo dnf install python3-venv
+		sudo dnf install python3-pip
+	#FreeBSD:
+	elif command_exists pkg; then
+		pkg install python3-venv
+	#OpenSUSE:
+	elif command_exists zypper; then
+		sudo zypper install python3-venv
+		sudo zypper install python3-pip
+	else
+		echo "Install pip and python3-venv manually if not done before......."
+		exit 1
+	fi
 else
 	echo "Mysql not found............."
 	echo "Installing mysql server"
