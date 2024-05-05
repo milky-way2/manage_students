@@ -1,6 +1,6 @@
 # manaage_students
 
-This is a simple students management system developed in Python with MySQL 8.0. To get started, follow these steps:
+This is a simple students management system developed in Python3 with MySQL 8.0. To get started, follow these steps:
 
 1. Clone this repository:
    ```bash
@@ -22,6 +22,6 @@ This is a simple students management system developed in Python with MySQL 8.0. 
 
 5. Run the main.py script:
    ```bash
-   python3 main.py
+   bash run.sh
    ```
 
