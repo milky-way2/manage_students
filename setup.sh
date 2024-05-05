@@ -53,18 +53,22 @@ if command_exists mysql; then
 	echo "Try to install python3-venv and pip"
 	#Ubuntu/Debian:
 	if command_exists apt; then
+		sudo apt update
 		sudo apt install python3-venv
 		sudo apt install python3-pip
 	#Ubuntu/Debian:
 	elif command_exists apt-get; then
+		sudo apt-get update
 		sudo apt-get install python3-venv
 		sudo apt-get install python3-pip
 	#Arch Linux:
 	elif command_exists pacman; then
+		sudo pacman -Syu
 		sudo pacman -S python3-venv
 		sudo pacman -S python-pip
 	#CentOS/RHEL:
 	elif command_exists yum; then
+		sudo yum update
 		sudo yum install python3-venv
 		sudo yum install python3-pip
 	#Fedora:
@@ -76,6 +80,7 @@ if command_exists mysql; then
 		pkg install python3-venv
 	#OpenSUSE:
 	elif command_exists zypper; then
+		sudo zypper refresh
 		sudo zypper install python3-venv
 		sudo zypper install python3-pip
 	else
