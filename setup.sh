@@ -134,9 +134,18 @@ EOF
 		#creating user if not exists
     	echo "User Not Exists......"
     	echo "creating User $MYSQL_USER with mysql_native_password plugin for connect through mysql.connector"
-    	sudo mysql <<EOF
-    	create user "$MYSQL_USER"@"$MYSQL_HOST" identified with mysql_native_password by "$MYSQL_PASSWORD";
+        if command_exists mariadb; then
+            sudo mysql <<EOF
+            create user "$MYSQL_USER"@"$MYSQL_HOST" identified by "$MYSQL_PASSWORD";
 EOF
+        else
+            sudo mysql <<EOF
+            create user "$MYSQL_USER"@"$MYSQL_HOST" identified with mysql_native_password by "$MYSQL_PASSWORD";
+EOF
+        fi
+#    	sudo mysql <<EOF
+#    	create user "$MYSQL_USER"@"$MYSQL_HOST" identified with mysql_native_password by "$MYSQL_PASSWORD";
+#EOF
 	fi
     #Creating DB and tables for students
     sudo mysql <<EOF
