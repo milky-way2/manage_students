@@ -20,7 +20,7 @@ This is a simple students management system developed in Python3 with MySQL 8.0.
    bash setup.sh
    ```
 
-5. Run the main.py script:
+5. Run the run.sh script to start the project:
    ```bash
    bash run.sh
    ```
