@@ -154,10 +154,13 @@ if [ -f "requirements.txt" ]; then
 	fi
 	if command_exists pip; then
 		pip install -r requirements.txt
+		deactivate
 	elif command_exists pip3; then
 		pip3 install -r requirements.txt
+		deactivate
 	else
 		echo "Pip not found.......Install pip or start your virtual environment if needed..........."
+		deactivate
 		exit 1
 	fi
 else

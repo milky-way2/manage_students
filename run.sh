@@ -16,3 +16,4 @@ else
 fi
 python3 main.py
 deactivate
+exit 0
