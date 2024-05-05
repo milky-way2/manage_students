@@ -239,5 +239,5 @@ else
 		echo "setup.sh missing"
 	fi
 fi
-echo "Now run python3 main.py to manage students details."
+echo -e "Now run bellow command to manage students details.\n bash run.sh"
 exit 0
