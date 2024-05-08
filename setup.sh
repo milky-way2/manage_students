@@ -3,7 +3,7 @@
 #Function to check a command is present or not
 command_exists()
 {
-	command -V "$1" > /dev/null 2>&1
+	command -v "$1" > /dev/null 2>&1
 }
 
 
@@ -143,6 +143,31 @@ fi
 if ! command_exists mysql; then
 	echo "Mysql not found install it first."
 	exit 1
+else
+	#Checking wheather mysql service is running or not if not trying to start it
+	attempts=0
+	if [ "$(uname -s)"=="Linux" ]; then
+		while ! systemctl is-active --quiet mysql; do
+			if [ $attempts -gt 5 ]; then
+				echo -e "Unable to start the mysql service. No attempts left \n Start it mannually then run this script again....."
+				exit 1
+			fi
+			echo "Trying to start mysql service.........."
+			sudo systemctl start mysql
+			attempts=$((attempts+1))
+		done
+	else
+		while ! brew services list | grep -q "mysql.*started"; do
+            if [ $attempts -gt 5 ]; then
+                echo -e "Unable to start the mysql service. No attempts left \n Start it mannually then run this script again....."
+                exit 1
+            fi
+			echo "Trying to start mysql service.........."
+			brew services start mysql
+            attempts=$((attempts+1))
+		done
+	fi
+	echo "mysql service is running"
 fi
 #instaalling python packages
 if [ -f "requirements.txt" ]; then
