@@ -22,7 +22,7 @@ This is a simple students management system developed in Python3 with MySQL 8.0.
 
 5. Give executable permission to run.sh:
    ```bash
-   chmod +x setup.sh
+   chmod +x run.sh
    ```
 
 6. Run the run.sh script to start the project:
