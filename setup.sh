@@ -88,7 +88,7 @@ if command_exists mysql; then
 		exit 1
 	fi
 else
-	echo "Mysql not found............."
+	echo -e "\nMysql not found............."
 	echo "Installing mysql server"
 	#Ubuntu/Debian:
 	if command_exists apt; then
