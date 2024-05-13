@@ -153,7 +153,16 @@ else
 				exit 1
 			fi
 			echo "Trying to start mysql service.........."
-			sudo systemctl start mysql
+			if command_exists mariadb; then
+				sudo systemctl start mariadb
+				if [ "$?" -ne 0 ]; then
+					sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+					sudo chown -R mysql:mysql /var/lib/mysql
+					sudo systemctl start mariadb
+				fi
+			else
+				sudo systemctl start mysql
+			fi
 			attempts=$((attempts+1))
 		done
 	else
