@@ -4,6 +4,9 @@ from typing import Union, Optional
 import mysql.connector
 from dotenv import load_dotenv
 from tabulate import tabulate
+from reportlab.lib.pagesizes import A4
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
 
 
 def main() -> None:
@@ -20,8 +23,9 @@ Enter 3 to Show records of existing students.
 Enter 4 for add new Student's Attribute.
 Enter 5 for remove  Student's Attribute.
 Enter 6 for update value of any student's attribute.
-Enter 7 to exit. : """))
-            if choice == 7:
+Enter 7 to generate a pdf file from all student details present in Database.
+Enter 0 to exit. : """))
+            if choice == 0:
                 close_db(cursor, connection)
                 print("Bye...")
                 break
@@ -37,6 +41,8 @@ Enter 7 to exit. : """))
                 remove_column(cursor, connection)
             elif choice == 6:
                 update_column(cursor, connection)
+            elif choice == 7:
+            	gen_pdf(cursor, connection)
             else:
                 print("Try again.....")
         except Exception as error_name:
@@ -164,6 +170,37 @@ def update_column(cursor: mysql.connector.cursor_cext.CMySQLCursor, connection: 
         cursor.fetchall()
         connection.commit()
         print("Student details updated.....")
+
+
+def gen_pdf(cursor: mysql.connector.cursor_cext.CMySQLCursor, connection: mysql.connector.connection_cext.CMySQLConnection) -> None :
+    """This function is to generate a pdf file from all student details present in Database."""
+    query: str = "select * from student;"
+    cursor.execute(query)
+    students = cursor.fetchall()
+    attributes = [column[0] for column in cursor.description]
+
+    # Convert data to list of lists
+    data = [attributes] + [list(student) for student in students]
+
+    # Create PDF
+    pdf_file = "student_records.pdf"
+    doc = SimpleDocTemplate(pdf_file, pagesize=A4)
+    table = Table(data)
+
+    # Apply styles
+    style = TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.gray),
+                        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                        ('GRID', (0, 0), (-1, -1), 1, colors.black)])
+    table.setStyle(style)
+
+    # Add table to PDF
+    doc.build([table])
+
+    print(f"PDF generated successfully: {pdf_file}")
 
 
 if __name__ == "__main__":
